@@ -38,5 +38,5 @@ for index, word in enumerate(words):
             trigrams_dict[dict_key].append(words[index + 2])
 
 for key in trigrams_dict:
-    print('{}\t\t{}'.format(key, trigrams_dict[key]))
+    print('{:<20}\t{}'.format(key, trigrams_dict[key]))
     # print('dict: {}'.format(trigrams_dict))
