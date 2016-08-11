@@ -1,19 +1,13 @@
 # -*- encode: utf-8 -*-
 import io
-from string import maketrans
+
+trigrams_dict = {}
 
 book = io.open('./data/Uncle_Sams.txt', mode='r', encoding='utf-8')
 book_text = book.read(12950)
 book.close()
-usable_text = book_text[2951:]
+# usable_text = book_text[2951:]
 
-# inrep  = u',.?!"-'
-# outrep = u'      '
-#
-# tranrep = maketrans(inrep, outrep)
-# new_text = usable_text.translate(tranrep)
-
-# print(new_text)
 
 usable_text = '"We must break this up," whispered Private Hyman to Noll Terry,\
     Hal Overton\'s soldier chum. "I don\'t want to see him get hurt."'
@@ -23,9 +17,14 @@ new_text = usable_text.replace(',', '').replace('"', '')\
 
 print(new_text)
 
-# split_text = new_text.split(' ', 2)
-# print(usable_text[0:100])
+split_text = new_text.split(' ', 3)
+print(usable_text[0:100])
+print(split_text)
+dict_key = split_text[0] + ' ' + split_text[1]
+print(dict_key)
 
-# dict_key = split_text[0] + ' ' + split_text[1]
+trigrams_dict = {}
+trigrams_dict[dict_key] = []
+trigrams_dict[dict_key].append(split_text[2])
 
-# print(dict_key)
+print('dict: {}'.format(trigrams_dict))
