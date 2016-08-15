@@ -1,8 +1,9 @@
 # -*- encode: utf-8 -*-
 import io
+import sys
 
 
-def main(path, num_words):
+def trigrams(path, num_words):
     path = '../data/Uncle_Sams.txt'
 
     trigrams_dict = {}
@@ -53,7 +54,30 @@ def main(path, num_words):
 
     # return choice(my_dict[key])    # returns random element from array in key
     #
+
     # trigram_dict.setdefault(dect_key[]).append(dect_value)
 
+
+
+
+def main():
+    USAGE = '''
+Usage: trigrams <input path> <words> > <ouput path>
+
+Example: trigrams some_book.txt 500 > my_output.txt
+'''
+
+    if len(sys.argv) != 3:
+        print(USAGE)
+        sys.exit(1)
+
+    try:
+        # trigrams(str(sys.argv[1]), int(sys.argv[2]))
+        print(sys.argv[0])
+        print(sys.argv[1])
+        print(sys.argv[2])
+    except RuntimeError:
+        print("This is a generic error, i'm still figuring this out")
+
 if __name__ == '__main__':
-    main('path', 500)
+    main()

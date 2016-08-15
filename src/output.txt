@@ -1,0 +1,3 @@
+trigrams.py
+input.txt
+500
