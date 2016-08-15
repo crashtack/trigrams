@@ -8,10 +8,10 @@ from random import choice
 def trigrams(book_text, num_words):
     trigrams_dict = {}
 
-    # usable_text = book_text[2951:]
+    usable_text = book_text[2951:]
 
-    usable_text = '"We must break this up," whispered Private Hyman to Noll Terry,\
-        Hal Overton\'s soldier chum. "I don\'t want to see him get hurt."'
+    # usable_text = '"We must break this up," whispered Private Hyman to Noll Terry,\
+        # Hal Overton\'s soldier chum. "I don\'t want to see him get hurt."'
 
     new_text = remove_punctuation(usable_text)
 
@@ -25,11 +25,16 @@ def trigrams(book_text, num_words):
             # else it updates an existing key pair
             trigrams_dict.setdefault(dict_key, []).append(words[index + 2])
 
-    for key in trigrams_dict:
-        print('{:<20}\t{}'.format(key, trigrams_dict[key]))
+    # for key in trigrams_dict:
+    #     print('{:<20}\t{}'.format(key, trigrams_dict[key]))
 
     new_text = get_fisrt_3_words(trigrams_dict)
-    out_string = build_string(trigrams_dict, num_words)
+
+    for i in range(num_words - 2):
+        key = get_next_key(new_text)
+        new_text += ' ' + get_next_word(trigrams_dict, key)
+
+    print('{}'.format(new_text))
 
     # some notes i took
     # "{0} {1}".format(*my_tuple[:2])     # use this structure, it's pythonic
@@ -42,27 +47,31 @@ def get_fisrt_3_words(d):
     ''' returns the first 3 words of the story '''
     key_dict = deepcopy(d)
     key = key_dict.popitem()
-    print('the key: {}'.format(key))
-    print(type(key))
-    print('{}'.format(key[0] + ' {}'.format(choice(key[1]))))
-    # return key[0] + key[1]
-
-
-def build_string(trigram_dict, num_words):
-    # key_dict = deepcopy(trigram_dict)
-    # key = key_dict.popitem()
     # print('the key: {}'.format(key))
     # print(type(key))
-    # for i in range(num_words - 2):
-    pass
+    # print('{}'.format(key[0]) + ' {}'.format(choice(key[1])))
+    return '{}'.format(key[0]) + ' {}'.format(choice(key[1]))
+
+
+def get_next_key(s):
+    words = s.split()
+    # print('get key: {}'.format(words[-2]) + ' {}'.format(words[-1]))
+    return '{}'.format(words[-2]) + ' {}'.format(words[-1])
+
+
+def get_next_word(trigrams_dict, k):
+    # print('get next word key: {}'.format(k))
+    # print('next word: {}'.format(choice(trigrams_dict[k])))
+    return choice(trigrams_dict[k])
 
 
 def remove_punctuation(text):
     ''' Removes punctuation except '
         TODO: refactor this, it looks ugly to me '''
-    new_text = text.replace(',', '').replace('"', '')\
-        .replace('.', '').replace('?', '').replace('!', '').replace('-', '')\
-        .replace('\n', ' ').replace('(', '').replace(')', '').replace(';', '')
+    new_text = text.replace(',', ' ').replace('"', '')\
+        .replace('.', '').replace('?', ' ').replace('!', ' ')\
+        .replace('\n', ' ').replace('(', '').replace(')', '')\
+        .replace(';', ' ').replace('-', ' ')
     new_text = new_text.lower()
     return new_text
 
