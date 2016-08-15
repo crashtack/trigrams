@@ -93,3 +93,5 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+data/Uncle_Sams.txt
