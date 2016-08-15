@@ -1,6 +1,7 @@
 # -*- encode: utf-8 -*-
 import io
 
+
 def main(path, num_words):
     path = '../data/Uncle_Sams.txt'
 
@@ -16,12 +17,10 @@ def main(path, num_words):
     except IOError:
         print("couldn't open missing.txt")
 
+    # usable_text = book_text[2951:]
 
-    usable_text = book_text[2951:]
-
-
-    # usable_text = '"We must break this up," whispered Private Hyman to Noll Terry,\
-        # Hal Overton\'s soldier chum. "I don\'t want to see him get hurt."'
+    usable_text = '"We must break this up," whispered Private Hyman to Noll Terry,\
+        Hal Overton\'s soldier chum. "I don\'t want to see him get hurt."'
     new_text = usable_text.replace(',', '').replace('"', '')\
         .replace('.', '').replace('?', '').replace('!', '').replace('-', '')\
         .replace('\n', ' ').replace('(', '').replace(')', '').replace(';', '')
@@ -29,20 +28,18 @@ def main(path, num_words):
 
     index = 0
 
-    words = new_text.split(' ')
-    # print(words)
-    while words.count(''):
-        words.remove('')
+    words = new_text.split()
+    print(words)
     print()
     print('removing spaces')
-    # print(words)
+
     print()
     for index, word in enumerate(words):
         if index <= len(words) - 3:
             dict_key = words[index] + ' ' + words[index + 1]
             # print(dict_key)
-            trigram_dict.setdefault(dect_key, []).append(words[index + 2])
-
+            trigrams_dict.setdefault(dict_key, []).append(words[index + 2])
+            # trigrams_dict
             # if dict_key not in trigrams_dict:
             #     trigrams_dict[dict_key] = [words[index + 2]]
             # else:
@@ -52,9 +49,9 @@ def main(path, num_words):
         print('{:<20}\t{}'.format(key, trigrams_dict[key]))
         # print('dict: {}'.format(trigrams_dict))
 
-    "{0} {1}".format(*my_tuple[:2])     # use this structure, it's pythonic
+    # "{0} {1}".format(*my_tuple[:2])     # use this structure, it's pythonic
 
-    # return choice(my_dict[key])         # returns random element from array in key
+    # return choice(my_dict[key])    # returns random element from array in key
     #
     # trigram_dict.setdefault(dect_key[]).append(dect_value)
 
