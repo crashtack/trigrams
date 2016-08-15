@@ -1,6 +1,8 @@
 # -*- encode: utf-8 -*-
 import io
 import sys
+from copy import deepcopy
+from random import choice
 
 
 def trigrams(book_text, num_words):
@@ -12,30 +14,47 @@ def trigrams(book_text, num_words):
         Hal Overton\'s soldier chum. "I don\'t want to see him get hurt."'
 
     new_text = remove_punctuation(usable_text)
-    # Removing punctuation, this is ugly find a cleaner way
-    # new_text = usable_text.replace(',', '').replace('"', '')\
-    #     .replace('.', '').replace('?', '').replace('!', '').replace('-', '')\
-    #     .replace('\n', ' ').replace('(', '').replace(')', '').replace(';', '')
-    # new_text = new_text.lower()
-
-    index = 0
 
     words = new_text.split()
 
     for index, word in enumerate(words):
         if index <= len(words) - 3:
             dict_key = words[index] + ' ' + words[index + 1]
-            # print(dict_key)
+
+            # setdefault creates a new key pair if it does not exist
+            # else it updates an existing key pair
             trigrams_dict.setdefault(dict_key, []).append(words[index + 2])
 
     for key in trigrams_dict:
         print('{:<20}\t{}'.format(key, trigrams_dict[key]))
+
+    new_text = get_fisrt_3_words(trigrams_dict)
+    out_string = build_string(trigrams_dict, num_words)
 
     # some notes i took
     # "{0} {1}".format(*my_tuple[:2])     # use this structure, it's pythonic
     # return choice(my_dict[key])    # returns random element from array in key
     # sum(1.0 / (i * 3 + 1) for i in range(n))
     # trigram_dict.setdefault(dect_key[]).append(dect_value)
+
+
+def get_fisrt_3_words(d):
+    ''' returns the first 3 words of the story '''
+    key_dict = deepcopy(d)
+    key = key_dict.popitem()
+    print('the key: {}'.format(key))
+    print(type(key))
+    print('{}'.format(key[0] + ' {}'.format(choice(key[1]))))
+    # return key[0] + key[1]
+
+
+def build_string(trigram_dict, num_words):
+    # key_dict = deepcopy(trigram_dict)
+    # key = key_dict.popitem()
+    # print('the key: {}'.format(key))
+    # print(type(key))
+    # for i in range(num_words - 2):
+    pass
 
 
 def remove_punctuation(text):
@@ -73,9 +92,6 @@ Example: trigrams some_book.txt 500 > my_output.txt
     try:
         book_text = load_file(sys.argv[1])
         trigrams(book_text, int(sys.argv[2]))
-        # print(sys.argv[0])
-        # print(sys.argv[1])
-        # print(sys.argv[2])
     except RuntimeError:
         print("This is a generic error, i'm still figuring this out")
 
